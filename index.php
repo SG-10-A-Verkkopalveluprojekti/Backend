@@ -1,7 +1,7 @@
 <?php
 
 
-require_once "functions.php";
-require_once "headers.php";
+require_once "./inc/functions.php";
+require_once "./inc/headers.php";
 
 $dbcon = createDbConnection();
