@@ -25,6 +25,12 @@ function selectAsJson(object $dbcon,string $sql): void {
     echo json_encode($results);
 }
 
+function selectRowAsJson(object $dbcon,string $sql): void {
+    $query = $dbcon->query($sql);
+    $results = $query->fetch(PDO::FETCH_ASSOC);
+    header('HTTP/1.1 200 OK');
+    echo json_encode($results);
+}
 
 function executeInsert(object $dbcon,string $sql): int {
     $query = $dbcon->query($sql);
