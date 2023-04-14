@@ -12,13 +12,25 @@ $category_id = $parameters[3];
 try {
     
     $dbcon = createDbConnection();
-    $sql = "select * from category where category_num = $category_id";
-    $query = $dbcon->query($sql);
-    $category = $query->fetch(PDO::FETCH_ASSOC);
+    $sql = "select * from category where category_num = :category_id";
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $category = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $sql = "select * from product where category_num = $category_id";
-    $query = $dbcon->query($sql);
-    $products = $query->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "select * from product where category_num = :category_id";
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // $sql = "select * from category where category_num = $category_id";
+    // $query = $dbcon->query($sql);
+    // $category = $query->fetch(PDO::FETCH_ASSOC);
+
+    // $sql = "select * from product where category_num = $category_id";
+    // $query = $dbcon->query($sql);
+    // $products = $query->fetchAll(PDO::FETCH_ASSOC);
 
     header('HTTP/1.1 200 OK');
     echo json_encode(array (
