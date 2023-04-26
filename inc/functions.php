@@ -24,11 +24,11 @@ function selectAsJson(object $dbcon,string $sql): void {
     $results = $query->fetchAll(PDO::FETCH_ASSOC);
 
     //Removes html tags from each value in the $results array
-    foreach ($results as &$row) {
-        foreach ($row as &$value) {
-            $value = strip_tags($value);
-        }
-    }
+    // foreach ($results as &$row) {
+    //     foreach ($row as &$value) {
+    //         $value = strip_tags($value);
+    //     }
+    // }
 
     header('HTTP/1.1 200 OK');
     echo json_encode($results);
