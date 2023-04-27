@@ -5,7 +5,7 @@ require_once '../inc/functions.php';
 
 try {
     $dbcon = createDbConnection();
-    selectAsJson($dbcon,'select * from category');
+    selectAsJsonCategories($dbcon,'select * from category');
 }
 catch (PDOException $pdoex) {
     returnError($pdoex);
