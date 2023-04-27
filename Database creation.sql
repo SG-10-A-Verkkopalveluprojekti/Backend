@@ -29,29 +29,38 @@ insert into product (name, price, image, category_num) values ('AMD Ryzen 5 7600
 
 
 create table customer (
-	customer_id int primary key auto_increment,
-	name varchar(100) not null,
-	phone_num varchar(15) not null,
-	email varchar(100) not null,
-	postcode char(5)
+	id int primary key auto_increment,
+	firstname varchar(50) not null,
+	lastname varchar(50) not null,
+	address varchar(50) not null,
+	zip varchar(10) not null,
+	city varchar(30) not null
 );
 
-insert into customer (name, phone_num, email, postcode) values ('Pekka', '1234567890', 'pekka.pakkanen@gmail.com', '90100'), ('Jussi', '0987654321', 'jussi.makinen@gmail.com', '61800'), ('Kaarina', '6789054321', 'kaarina.kalliopera@gmail.com', '00100'), ('Joni', '1234509876', 'joni.pontius@gmail.com', '33700'), ('Susanna', '2468013579', 'susanna.suolajarvi@gmail.com', '90580');
+insert into customer (firstname, lastname, address, zip, city) values 
+	('Pekka', 'Pakkanen', 'suotie 102', '90100', 'Oulu'),
+ 	('Jussi', 'Makinen', 'kedonkuja 98', '64100', 'Kristiinankaupunki'),
+  	('Kaarina', 'Kalliopera', 'metsatie 29', '00100', 'Helsinki'),
+   	('Joni', 'Pontius', 'jarvioja 11', '33700', 'Tampere'),
+    ('Susanna', 'suolajarvi', 'korvenkangas 306', '90580', 'Oulu');
 
 create table orders (
-	order_num int primary key auto_increment,
+	id int primary key auto_increment,
+	order_date timestamp default current_timestamp,
 	customer_id int not null,
-	name varchar(100) not null,
-	order_date timestamp,
-	foreign key (customer_id) references customer (customer_id)
+	index customer_id(customer_id),
+	foreign key (customer_id) references customer(id)
+	on delete restrict
 );
 	
 create table order_row (
-	order_num int,
-	row_num smallint not null,
+	order_id int not null,
+	index order_id(order_id),
+	foreign key (order_id) references orders (id)
+	on delete restrict,
 	product_id int not null,
-	amount integer,
-	foreign key (order_num) references orders (order_num),
-	foreign key (product_id) references product (product_id)
+	index product_id(product_id),
+	foreign key (product_id) references product(product_id)
+	on delete restrict
 );
 
