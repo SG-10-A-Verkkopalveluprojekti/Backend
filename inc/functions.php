@@ -34,6 +34,7 @@ function selectAsJson(object $dbcon,string $sql): void {
     echo json_encode($results);
 }
 
+//Used for categories fetch 2
 function selectAsJsonCategories(object $dbcon,string $sql): void {
     $query = $dbcon->query($sql);
     $results = $query->fetchAll(PDO::FETCH_ASSOC);
