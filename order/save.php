@@ -11,6 +11,7 @@ $address = filter_var($input->address,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $zip = filter_var($input->zip,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $city = filter_var($input->city,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $cart = $input->cart;
+$amount= filter_var($input->amount,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 try {
     $dbcon = createDbConnection();
@@ -33,12 +34,15 @@ try {
 
     //Insert order rows by looping through cart (which is an array)
     foreach ($cart as $product) {
-        $sql = "insert into order_row (order_id, product_id) values ("
+        $sql = "insert into order_row (order_id, product_id, amount) values ("
         . 
             $order_id . "," . 
-            $product->product_id
+            $product->product_id . "," .
+            ':amount'
         . ")";
-        executeInsert($dbcon,$sql);
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bindValue(":amount", $product->amount);
+        $stmt->execute();
     }
 
     $dbcon->commit(); //Commit transaction
